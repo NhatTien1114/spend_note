@@ -1,0 +1,150 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spend_note/screen/auth/login_screen.dart';
+
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({super.key});
+
+  @override
+  State<SigninScreen> createState() => _SigninScreenState();
+}
+
+class _SigninScreenState extends State<SigninScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passController.dispose();
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
+                "image/login-banner.png",
+                width: double.infinity,
+                height: 150.h,
+                fit: BoxFit.fitWidth,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 30.h),
+                    Text("Đăng ký tài khoản",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.sp,
+                          color: Colors.black)
+                    ),
+                    SizedBox(height: 16.h,),
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelText: "Email",
+                        prefixIcon: Icon(Icons.email_outlined),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+                        hoverColor: Color(0xFF01AEF0),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    SizedBox(height: 16.h,),
+                    TextField(
+                      controller: _passController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelText: "Mật khẩu",
+                        prefixIcon: Icon(Icons.lock_outline),
+                        suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+                        hoverColor: Color(0xFF01AEF0),
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                    SizedBox(height: 16.h,),
+                    TextField(
+                      controller: _nameController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelText: "Tên của bạn",
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+                        hoverColor: Color(0xFF01AEF0),
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                    SizedBox(height: 16.h,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: RichText(
+                            textAlign: TextAlign.justify,
+                            text: TextSpan(
+                              style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+                              children: [
+                                const TextSpan(text: "Bằng cách bấm vào nút đăng ký, bạn đã đồng ý với "),
+                                TextSpan(
+                                  text: "Điều khoản & Chính sách",
+                                  style: TextStyle(
+                                      color: Colors.blueAccent,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                const TextSpan(text: " của chúng tôi."),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 16.h,),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 35.h,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print("Login click: ${_emailController.text}");
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.lightBlueAccent,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                        ),
+                        child: Text("Đăng ký",
+                            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Bạn đã có tài khoản?", style: TextStyle(fontSize: 15.sp, color: Colors.grey[600]),),
+                        TextButton(
+                            onPressed: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen(),));
+                            },
+                            child: Text("Đăng nhập ngay", style: TextStyle(color: Colors.blueAccent, fontSize: 16.sp),))
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      )
+    );
+  }
+}
