@@ -8,6 +8,17 @@
 	<string>Spend Note</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
+	<string>737636085369-jn91f0edto6r8mr8jc3fqt6chbgvsvb8.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+	    <dict>
+	        <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>com.googleusercontent.apps.737636085369-jn91f0edto6r8mr8jc3fqt6chbgvsvb8</string>
+            </array>
+	    </dict>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>

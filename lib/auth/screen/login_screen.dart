@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spend_note/screen/auth/signin_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spend_note/auth/screen/signin_screen.dart';
+import 'package:spend_note/auth/services/google_auth.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -118,12 +121,81 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ],
                     ),
+                    SizedBox(height: 8.h),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          child: Text(
+                            "Hoặc đăng nhập bằng",
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                        const Expanded(
+                          child: Divider(
+                            thickness: 1,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildSocialButton(
+                          icon: FontAwesomeIcons.google,
+                          color: const Color(0xFFDB4437),
+                          onTap: () async {
+                            try {
+                              final userCredential = await GoogleSignInService.signInWithGoogle();
+                              if (userCredential != null) {
+                                print("Đăng nhập thành công: ${userCredential.user?.displayName}");
+                              }
+                            } catch (e) {
+                              print("Lỗi đăng nhập Google: $e");
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Đăng nhập thất bại: $e")),
+                              );
+                            }
+                          },
+                        ),
+                        SizedBox(width: 10.w),
+                        _buildSocialButton(
+                          icon: FontAwesomeIcons.facebook,
+                          color: const Color(0xFF4267B2),
+                          onTap: () => print("Facebook Login"),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+  Widget _buildSocialButton({required IconData icon, required Color color, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(12.r),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: FaIcon(icon, color: color, size: 20.sp),
       ),
     );
   }
