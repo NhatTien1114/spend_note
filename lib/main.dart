@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spend_note/auth/screen/login_screen.dart';
+import 'package:spend_note/auth/screen/main_page.dart';
+import 'package:spend_note/auth/screen/auth_screen/login_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
             useMaterial3: true,
           ),
-          home: const LoginScreen(),
+          home: const MainPage(),
         );
       },
     );

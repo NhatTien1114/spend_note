@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:spend_note/auth/screen/signin_screen.dart';
+import 'package:spend_note/auth/screen/auth_screen/signin_screen.dart';
+import 'package:spend_note/auth/screen/home_screen.dart';
+import 'package:spend_note/auth/services/auth.dart';
 import 'package:spend_note/auth/services/google_auth.dart';
+import 'package:spend_note/util/snack_bar.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final VoidCallback show;
+  const LoginScreen(this.show, {super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -88,8 +92,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: double.infinity,
                       height: 35.h,
                       child: ElevatedButton(
-                        onPressed: () {
-                          print("Login click: ${_emailController.text}");
+                        onPressed: () async{
+                          try {
+                            await Authentication().Login(
+                              emai: _emailController.text,
+                              password: _passController.text,
+                            );
+                            AppSnackbar.showSuccess(context, "Thành công", "Đăng nhập thành công");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => HomePage()),
+                            );
+                          } catch (e) {
+                            AppSnackbar.showError(context, "Lỗi", "Đăng nhập thất bại");
+                            print("Lỗi đăng nhập: $e");
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightBlueAccent,
@@ -108,7 +125,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text("Bạn chưa có tài khoản?", style: TextStyle(fontSize: 15.sp, color: Colors.grey[600]),),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SigninScreen(),));
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => SigninScreen(widget.show)),
+                            );
                           },
                           child: Text(
                             "Đăng ký",

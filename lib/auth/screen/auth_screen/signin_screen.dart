@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:spend_note/auth/screen/login_screen.dart';
+import 'package:spend_note/auth/screen/auth_screen/login_screen.dart';
+import 'package:spend_note/auth/services/auth.dart';
 import 'package:spend_note/auth/services/google_auth.dart';
+import 'package:spend_note/util/snack_bar.dart';
 
 class SigninScreen extends StatefulWidget {
-  const SigninScreen({super.key});
+  final VoidCallback show;
+  const SigninScreen(this.show ,{super.key});
 
   @override
   State<SigninScreen> createState() => _SigninScreenState();
@@ -14,12 +17,16 @@ class SigninScreen extends StatefulWidget {
 class _SigninScreenState extends State<SigninScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  final TextEditingController _passConfirmController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  bool _isObscure = true;
+  bool _isObscureConfirm = true;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passController.dispose();
+    _passConfirmController.dispose();
     _nameController.dispose();
     super.dispose();
   }
@@ -64,12 +71,43 @@ class _SigninScreenState extends State<SigninScreen> {
                     SizedBox(height: 16.h,),
                     TextField(
                       controller: _passController,
-                      obscureText: true,
+                      obscureText: _isObscure,
                       decoration: InputDecoration(
                         isDense: true,
                         labelText: "Mật khẩu",
                         prefixIcon: Icon(Icons.lock_outline),
-                        suffixIcon: Icon(Icons.remove_red_eye_outlined),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
+                            icon: Icon(_isObscure ? Icons.remove_red_eye_outlined
+                                : Icons.visibility_off_outlined,
+                            )),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
+                        hoverColor: Color(0xFF01AEF0),
+                      ),
+                      keyboardType: TextInputType.name,
+                    ),
+                    SizedBox(height: 16.h,),
+                    TextField(
+                      controller: _passConfirmController,
+                      obscureText: _isObscureConfirm,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelText: "Xác nhận mật khẩu",
+                        prefixIcon: Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isObscureConfirm = !_isObscureConfirm;
+                              });
+                            },
+                            icon: Icon(_isObscureConfirm ? Icons.remove_red_eye_outlined
+                                : Icons.visibility_off_outlined,
+                            )
+                        ),
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
                         hoverColor: Color(0xFF01AEF0),
                       ),
@@ -115,8 +153,20 @@ class _SigninScreenState extends State<SigninScreen> {
                       width: double.infinity,
                       height: 35.h,
                       child: ElevatedButton(
-                        onPressed: () {
-                          print("Login click: ${_emailController.text}");
+                        onPressed: () async{
+                          try {
+                            await Authentication().Singin(
+                              email: _emailController.text,
+                              password: _passController.text,
+                              passwordConfirm: _passConfirmController.text,
+                              name: _nameController.text,
+                            );
+                            AppSnackbar.showSuccess(context, "Thành công", "Đăng ký thành công");
+                            widget.show();
+                          } catch (e) {
+                            AppSnackbar.showError(context, "Lỗi", "Đăng nhập thất bại");
+                            print("Lỗi đăng ký: $e");
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.lightBlueAccent,
@@ -135,7 +185,7 @@ class _SigninScreenState extends State<SigninScreen> {
                         Text("Bạn đã có tài khoản?", style: TextStyle(fontSize: 15.sp, color: Colors.grey[600]),),
                         TextButton(
                             onPressed: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen(),));
+                              Navigator.of(context).push(MaterialPageRoute(builder:(context) => LoginScreen(widget.show)));
                             },
                             child: Text("Đăng nhập ngay", style: TextStyle(color: Colors.blueAccent, fontSize: 16.sp),))
                       ],
