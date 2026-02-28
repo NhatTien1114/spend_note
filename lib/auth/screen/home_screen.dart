@@ -16,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Chuyển _currentIndex vào bên trong State để quản lý đúng cách
   int _currentIndex = 0;
   late PageController pageController;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -66,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             ),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.indigo[900],
+              backgroundColor: Colors.lightBlue[700],
               selectedItemColor: Colors.white,
               unselectedItemColor: Colors.white70,
               currentIndex: _currentIndex,

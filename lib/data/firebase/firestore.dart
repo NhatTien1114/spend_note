@@ -18,6 +18,7 @@ class FireStore {
       "name": name,
       "photoURL": photoURL,
       "provider": provider,
+      "createAt": DateTime.now().toUtc().millisecondsSinceEpoch,
     });
     return true;
   }
