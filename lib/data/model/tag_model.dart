@@ -1,27 +1,36 @@
-class Tag {
-  final String _id;
-  final String _name;
+import 'package:flutter/cupertino.dart';
 
-  String get id => _id;
+class Tag {
+  final String _name;
+  final IconData _icon;
+  final Color _color;
+
   String get name => _name;
+  IconData get icon => _icon;
+  Color get color => _color;
 
   Tag({
-    required String id,
     required String name,
-  }) : _id = id,
-        _name = name;
+    required IconData icon,
+    required Color color,
+  }) :  _name = name,
+        _icon = icon,
+        _color = color;
+
 
   factory Tag.fromMap(Map<String, dynamic> json) {
     return Tag(
-      id: json['id'] ?? '',
       name: json['name'],
+      icon: json['icon'],
+      color: json['color'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': _id,
       'name': _name,
+      'icon': _icon,
+      'color': _color,
     };
   }
 }

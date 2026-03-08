@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spend_note/auth/screen/auth_screen/auth_screen.dart';
-import 'package:spend_note/auth/services/auth.dart';
+import 'package:spend_note/screen/auth_page/auth_screen.dart';
+import 'package:spend_note/service/auth.dart';
 class OtherScreen extends StatefulWidget {
   const OtherScreen({super.key});
 

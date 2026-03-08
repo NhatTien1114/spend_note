@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spend_note/auth/screen/main_page.dart';
-import 'package:spend_note/auth/screen/auth_screen/login_screen.dart';
+import 'package:spend_note/screen/main_page.dart';
 import 'firebase_options.dart';
 
 void main() async {

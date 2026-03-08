@@ -1,32 +1,49 @@
-class Category {
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spend_note/data/model/tag_model.dart';
+
+class CategoryGroup {
   final String _id;
   final String _name;
-  final String _tagId;
+  final IconData _groupIcon;
+  final List<Tag> _tags;
+  final Color _color;
   final String _type;
 
   String get id => _id;
 
   String get name => _name;
 
-  String get tagId => _tagId;
+  IconData get groupIcon => _groupIcon;
+
+  List<Tag> get tags => _tags;
+
+  Color get color => _color;
 
   String get type => _type;
 
-  Category({
+  CategoryGroup({
     required String id,
     required String name,
-    required String tagId,
+    required IconData groupIcon,
+    required List<Tag> tags,
+    required Color color,
     required String type,
   }) : _id = id,
        _name = name,
-       _tagId = tagId,
+       _groupIcon = groupIcon,
+       _tags = tags,
+      _color = color,
        _type = type;
 
-  factory Category.fromMap(Map<String, dynamic> json) {
-    return Category(
+  factory CategoryGroup.fromMap(Map<String, dynamic> json) {
+    return CategoryGroup(
       id: json['id'] ?? '',
       name: json['name'],
-      tagId: json['tagId'],
+      groupIcon: json['groupIcon'],
+      tags: json['tags'],
+      color: json['color'],
       type: json['type'],
     );
   }
@@ -35,7 +52,9 @@ class Category {
     return {
       'id': _id,
       'name': _name,
-      'tagId': _tagId,
+      'groupIcon': _groupIcon,
+      'tags': _tags,
+      'color': _color,
       'type': _type,
     };
   }

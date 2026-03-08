@@ -11,15 +11,31 @@ class FireStore {
     required String name,
     required String photoURL,
     required String provider,
-}) async {
-    await _firebaseFirestore.collection("users").doc(_auth.currentUser!.uid).set({
-      "uid": uid,
-      "email": email,
-      "name": name,
-      "photoURL": photoURL,
-      "provider": provider,
-      "createAt": DateTime.now().toUtc().millisecondsSinceEpoch,
-    });
+  }) async {
+    await _firebaseFirestore
+        .collection("users")
+        .doc(_auth.currentUser!.uid)
+        .set({
+          "uid": uid,
+          "email": email,
+          "name": name,
+          "photoURL": photoURL,
+          "provider": provider,
+          "createAt": DateTime.now().toUtc().millisecondsSinceEpoch,
+        });
+    return true;
+  }
+
+  Future<bool> CreateCategory({
+    required String id,
+    required String name,
+    required String tagId,
+    required String type,
+  }) async {
+    await _firebaseFirestore
+        .collection("categories")
+        .doc(_auth.currentUser!.uid)
+        .set({"id": id, "name": name, "tagId": tagId, "type": type});
     return true;
   }
 }

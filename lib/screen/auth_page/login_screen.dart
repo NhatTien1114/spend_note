@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:spend_note/auth/screen/auth_screen/signin_screen.dart';
-import 'package:spend_note/auth/screen/home_screen.dart';
-import 'package:spend_note/auth/services/auth.dart';
-import 'package:spend_note/auth/services/google_auth.dart';
+import 'package:spend_note/screen/auth_page/signin_screen.dart';
+import 'package:spend_note/screen/home_screen.dart';
+import 'package:spend_note/service/auth.dart';
+import 'package:spend_note/service/google_auth.dart';
 import 'package:spend_note/util/snack_bar.dart';
 
 

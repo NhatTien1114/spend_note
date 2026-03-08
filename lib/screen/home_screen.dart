@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:spend_note/auth/screen/main_page/account_screen.dart';
-import 'package:spend_note/auth/screen/main_page/add_transaction_screen.dart';
-import 'package:spend_note/auth/screen/main_page/dashboard_screen.dart';
-import 'package:spend_note/auth/screen/main_page/other_screen.dart';
-import 'package:spend_note/auth/screen/main_page/report_screen.dart';
+import 'package:spend_note/screen/main_page/account_screen.dart';
+import 'package:spend_note/screen/main_page/add_transaction_screen.dart';
+import 'package:spend_note/screen/main_page/dashboard_screen.dart';
+import 'package:spend_note/screen/main_page/other_screen.dart';
+import 'package:spend_note/screen/main_page/report_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

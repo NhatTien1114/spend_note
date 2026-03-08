@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:spend_note/screen/item_page/category_item.dart';
 import 'package:spend_note/util/button.dart';
 
 class AddTransactionScreen extends StatefulWidget {
@@ -215,7 +216,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             ],
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryItem(),));
+            },
             child: Text(
               "Tất cả",
               style: TextStyle(fontSize: 16.sp, color: Colors.blueAccent),
@@ -275,27 +278,36 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           size: 14.sp,
           color: Colors.grey[700],
         ),
-        DropdownMenu(
-          width: 150.w,
-          label: Text("Chọn loại giao dịch"),
-          dropdownMenuEntries: [
-            DropdownMenuEntry(
-              value: 1,
-              label: "Chi tiền",
-              leadingIcon: Icon(
-                FontAwesomeIcons.minusCircle,
-                color: Colors.red,
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.r),
+            border: Border.all(
+              color: Colors.lightBlueAccent,
+            )
+          ),
+          child: DropdownMenu(
+            width: 150.w,
+            textStyle: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 14.sp),
+            dropdownMenuEntries: [
+              DropdownMenuEntry(
+                value: 1,
+                label: "Chi tiền",
+                leadingIcon: Icon(
+                  FontAwesomeIcons.minusCircle,
+                  color: Colors.red,
+                ),
               ),
-            ),
-            DropdownMenuEntry(
-              value: 2,
-              label: "Thu Tiền",
-              leadingIcon: Icon(
-                FontAwesomeIcons.plusCircle,
-                color: Colors.green,
+              DropdownMenuEntry(
+                value: 2,
+                label: "Thu Tiền",
+                leadingIcon: Icon(
+                  FontAwesomeIcons.plusCircle,
+                  color: Colors.green,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         FaIcon(FontAwesomeIcons.ticket, size: 14.sp, color: Colors.grey[700]),
       ],
