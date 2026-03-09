@@ -17,6 +17,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   final TextEditingController _noteController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
+  bool isExpense = true;
 
   //  Hàm chọn ngày
   Future<void> _selectDate(BuildContext context) async {
@@ -89,6 +90,136 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget header() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        FaIcon(
+          FontAwesomeIcons.clockRotateLeft,
+          size: 14.sp,
+          color: Colors.grey[700],
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.r),
+              border: Border.all(
+                color: Colors.lightBlueAccent,
+              )
+          ),
+          child: DropdownMenu(
+            initialSelection: 1,
+            onSelected: (value) {
+              setState(() {
+                isExpense = (value == 1);
+              });
+            },
+            width: 150.w,
+            textStyle: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 14.sp),
+            dropdownMenuEntries: [
+              DropdownMenuEntry(
+                value: 1,
+                label: "Chi tiền",
+                leadingIcon: Icon(
+                  FontAwesomeIcons.minusCircle,
+                  color: Colors.red,
+                ),
+              ),
+              DropdownMenuEntry(
+                value: 2,
+                label: "Thu Tiền",
+                leadingIcon: Icon(
+                  FontAwesomeIcons.plusCircle,
+                  color: Colors.green,
+                ),
+              ),
+            ],
+          ),
+        ),
+        FaIcon(FontAwesomeIcons.ticket, size: 14.sp, color: Colors.grey[700]),
+      ],
+    );
+  }
+
+  Widget typeAmount() {
+    Color amountColor = isExpense ? Colors.red : Colors.green;
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Center(
+        child: Column(
+          children: [
+            Text(
+              "Số tiền",
+              style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
+            ),
+            TextField(
+              textAlign: TextAlign.center,
+              controller: _amountController,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+              ),
+              decoration: InputDecoration(
+                counterStyle: TextStyle(color: amountColor),
+                hintText: "0 đ",
+                hintStyle: TextStyle(
+                  fontSize: 18.sp,
+                  color: amountColor,
+                  fontWeight: FontWeight.bold,
+                ),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.zero,
+              ),
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget selectCategory() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              SizedBox(width: 12.w),
+              FaIcon(
+                FontAwesomeIcons.plusSquare,
+                size: 18.sp,
+                color: Colors.grey[700],
+              ),
+              SizedBox(width: 12.w),
+              Text(
+                "Chọn hạng mục",
+                style: TextStyle(fontSize: 16.sp, color: Colors.red),
+              ),
+            ],
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryItem(),));
+            },
+            child: Text(
+              "Tất cả",
+              style: TextStyle(fontSize: 16.sp, color: Colors.blueAccent),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -188,129 +319,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget selectCategory() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              SizedBox(width: 12.w),
-              FaIcon(
-                FontAwesomeIcons.plusSquare,
-                size: 18.sp,
-                color: Colors.grey[700],
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                "Chọn hạng mục",
-                style: TextStyle(fontSize: 16.sp, color: Colors.red),
-              ),
-            ],
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryItem(),));
-            },
-            child: Text(
-              "Tất cả",
-              style: TextStyle(fontSize: 16.sp, color: Colors.blueAccent),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget typeAmount() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-      ),
-      child: Center(
-        child: Column(
-          children: [
-            Text(
-              "Số tiền",
-              style: TextStyle(fontSize: 16.sp, color: Colors.grey[700]),
-            ),
-            TextField(
-              textAlign: TextAlign.center,
-              controller: _amountController,
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-              ),
-              decoration: InputDecoration(
-                counterStyle: TextStyle(color: Colors.red),
-                hintText: "0 đ",
-                hintStyle: TextStyle(
-                  fontSize: 18.sp,
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.zero,
-              ),
-              keyboardType: TextInputType.number,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        FaIcon(
-          FontAwesomeIcons.clockRotateLeft,
-          size: 14.sp,
-          color: Colors.grey[700],
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(
-              color: Colors.lightBlueAccent,
-            )
-          ),
-          child: DropdownMenu(
-            width: 150.w,
-            textStyle: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 14.sp),
-            dropdownMenuEntries: [
-              DropdownMenuEntry(
-                value: 1,
-                label: "Chi tiền",
-                leadingIcon: Icon(
-                  FontAwesomeIcons.minusCircle,
-                  color: Colors.red,
-                ),
-              ),
-              DropdownMenuEntry(
-                value: 2,
-                label: "Thu Tiền",
-                leadingIcon: Icon(
-                  FontAwesomeIcons.plusCircle,
-                  color: Colors.green,
-                ),
-              ),
-            ],
-          ),
-        ),
-        FaIcon(FontAwesomeIcons.ticket, size: 14.sp, color: Colors.grey[700]),
-      ],
     );
   }
 }

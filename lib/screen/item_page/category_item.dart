@@ -73,6 +73,15 @@ class _CategoryItemState extends State<CategoryItem> {
       type: "Routine",
     ),
   ];
+  final List<Tag> thuTienData = [
+    Tag(name: "Lương", icon: FontAwesomeIcons.moneyCheckDollar, color: Colors.greenAccent),
+    Tag(name: "Thưởng", icon: FontAwesomeIcons.idBadge, color: Colors.yellowAccent),
+    Tag(name: "Lãi tiết kiệm", icon: FontAwesomeIcons.piggyBank, color: Colors.pinkAccent),
+    Tag(name: "Tiền lãi", icon: FontAwesomeIcons.moneyBill, color: Colors.blueAccent),
+    Tag(name: "Tiền vào", icon: FontAwesomeIcons.moneyCheck, color: Colors.orangeAccent),
+    Tag(name: "Được cho/tặng", icon: FontAwesomeIcons.handBackFist, color: Colors.yellowAccent),
+    Tag(name: "Khác", icon: FontAwesomeIcons.moneyBillTransfer, color: Colors.yellow),
+  ];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -127,9 +136,9 @@ class _CategoryItemState extends State<CategoryItem> {
             Expanded(
               child: TabBarView(
                 children: [
-                  _buildCategoryList(chiTienData),
-                  _buildCategoryList([]),
-                  _buildCategoryList([]),
+                  _buildCategoryChiTienList(chiTienData),
+                  _buildTagThuTienList(thuTienData),
+                  _buildCategoryChiTienList([]),
                 ],
               ),
             ),
@@ -138,7 +147,36 @@ class _CategoryItemState extends State<CategoryItem> {
       ),
     );
   }
-  Widget _buildCategoryList(List<CategoryGroup> categories) {
+
+  Widget _buildTagThuTienList(List<Tag> tags) {
+    return ListView.builder(
+      itemCount: tags.length,
+      itemBuilder: (context, index) {
+        final tag = tags[index];
+        return Container(
+          margin: EdgeInsets.only(top: 10.h),
+          color: Colors.white,
+          child: ListTile(
+            leading: Container(
+              padding: EdgeInsets.all(10.w),
+              decoration: BoxDecoration(
+                color: tag.color.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: FaIcon(tag.icon, size: 20.sp, color: tag.color),
+            ),
+            title: Text(
+              tag.name,
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold,color: Colors.blue[700]),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        );
+      });
+  }
+
+  Widget _buildCategoryChiTienList(List<CategoryGroup> categories) {
     return ListView.builder(
       itemCount: categories.length,
         itemBuilder: (context, index) {
