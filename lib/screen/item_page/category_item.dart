@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:spend_note/data/model/tag_model.dart';
 import 'package:spend_note/data/model/category_model.dart';
+import 'package:spend_note/screen/item_page/update_category_item.dart';
 class CategoryItem extends StatefulWidget {
   const CategoryItem({super.key});
 
@@ -82,6 +83,13 @@ class _CategoryItemState extends State<CategoryItem> {
     Tag(name: "Được cho/tặng", icon: FontAwesomeIcons.handBackFist, color: Colors.yellowAccent),
     Tag(name: "Khác", icon: FontAwesomeIcons.moneyBillTransfer, color: Colors.yellow),
   ];
+
+  final List<Tag> vayNoData = [
+    Tag(name: "Cho vay", icon: FontAwesomeIcons.handHoldingDollar, color: Colors.greenAccent),
+    Tag(name: "Đi vay", icon: FontAwesomeIcons.handHoldingUsd, color: Colors.yellowAccent),
+    Tag(name: "Trả nợ", icon: FontAwesomeIcons.handHoldingHeart, color: Colors.pinkAccent),
+    Tag(name: "Thu nợ", icon: FontAwesomeIcons.handHoldingHeart, color: Colors.blueAccent),
+  ];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -93,7 +101,9 @@ class _CategoryItemState extends State<CategoryItem> {
           centerTitle: true,
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => UpdateCategoryItem(),));
+                },
                 icon: FaIcon(FontAwesomeIcons.pencil, size: 16.sp)),
           ],
           bottom: TabBar(
@@ -138,7 +148,7 @@ class _CategoryItemState extends State<CategoryItem> {
                 children: [
                   _buildCategoryChiTienList(chiTienData),
                   _buildTagThuTienList(thuTienData),
-                  _buildCategoryChiTienList([]),
+                  _buildTagThuTienList(vayNoData),
                 ],
               ),
             ),
