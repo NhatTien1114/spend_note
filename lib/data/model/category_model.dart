@@ -36,24 +36,25 @@ class CategoryGroup {
       _color = color,
        _type = type;
 
-  factory CategoryGroup.fromMap(Map<String, dynamic> json) {
+  factory CategoryGroup.fromMap(Map<String, dynamic> json, String documentId) {
     return CategoryGroup(
-      id: json['id'] ?? '',
-      name: json['name'],
-      groupIcon: json['groupIcon'],
-      tags: json['tags'],
-      color: json['color'],
-      type: json['type'],
+      id: documentId,
+      name: json['name'] ?? '',
+      groupIcon: IconData(json['groupIcon'], fontFamily: 'MaterialIcons'),
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((item) => Tag.fromMap(item as Map<String, dynamic>, documentId))
+          .toList() ?? [],
+      color: Color(json['color']),
+      type: json['type'] ?? 'expense',
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': _id,
       'name': _name,
-      'groupIcon': _groupIcon,
-      'tags': _tags,
-      'color': _color,
+      'groupIcon': _groupIcon.codePoint,
+      'tags': _tags.map((tag) => tag.toMap()).toList(),
+      'color': _color.value,
       'type': _type,
     };
   }

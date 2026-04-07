@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:spend_note/data/firebase/firestore.dart';
 import 'package:spend_note/data/model/category_model.dart';
 import 'package:spend_note/data/model/tag_model.dart';
 import 'package:spend_note/screen/item_page/add_category_item.dart';
@@ -14,6 +15,8 @@ class UpdateCategoryItem extends StatefulWidget {
 
 class _UpdateCategoryItemState extends State<UpdateCategoryItem> with SingleTickerProviderStateMixin{
   final TextEditingController _searchController = TextEditingController();
+
+  final FireStore _fireStore = FireStore();
   final List<CategoryGroup> chiTienData = [
     CategoryGroup(
       id: "chiTien",
@@ -181,14 +184,33 @@ class _UpdateCategoryItemState extends State<UpdateCategoryItem> with SingleTick
           ),
 
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildCategoryChiTienList(chiTienData),
-                _buildCategoryThuTienList(thuTienData)
-              ],
-            ),
-          )
+            child: StreamBuilder<List<CategoryGroup>> (
+              stream: _fireStore.getCategories(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("Chưa có hạng mục nào"));
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text("Lỗi: ${snapshot.error}"));
+                }
+
+                List<CategoryGroup> allData = snapshot.data ?? [];
+
+                List<CategoryGroup> chiTienFirebase = allData.where((category) => category.type == "expense").toList();
+
+                return TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildCategoryChiTienList(chiTienFirebase),
+                    _buildCategoryThuTienList(thuTienData)
+                  ],
+                );
+              },
+            )
+          ),
         ],
       ),
       floatingActionButton: IconButton(
